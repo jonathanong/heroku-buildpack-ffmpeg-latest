@@ -1,0 +1,5 @@
+test:
+  override:
+    - ./bin/detect
+    - ./bin/compile
+    - ./bin/release
