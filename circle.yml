@@ -1,5 +1,5 @@
 test:
   override:
     - ./bin/detect
-    - ./bin/compile
+    - ./bin/compile $PWD
     - ./bin/release
