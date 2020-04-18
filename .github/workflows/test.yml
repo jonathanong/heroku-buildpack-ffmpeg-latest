@@ -1,0 +1,13 @@
+name: Test
+on:
+  push:
+  schedule:
+    - cron: '*/5 * * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: ./bin/detect
+    - run: ./bin/compile $PWD
+    - run: ./bin/release

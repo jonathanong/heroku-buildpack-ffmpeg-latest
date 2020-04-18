@@ -1,5 +1,0 @@
-test:
-  override:
-    - ./bin/detect
-    - ./bin/compile $PWD
-    - ./bin/release
