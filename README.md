@@ -10,14 +10,12 @@ Unlike other build packs, I never compile anything.
 
 ## Usage
 
-Add the following to your `.buildpacks`:
+Run the following from the heroku command line:
 
 ```
-https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git
+heroku buildpacks:add --index 1 https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git
 ```
 
-Or run the following from the heroku command line:
-
-```
-heroku buildpacks:add https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git
-```
+Note: This buildpack should be added before the main language buildpack (by using `--index 1`),
+since the application process types are calculated from the last buildpack in the list if no
+`Procfile` is specified.
