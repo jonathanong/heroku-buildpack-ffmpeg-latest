@@ -18,6 +18,11 @@ mkdir -p ffmpeg
 cd ffmpeg
 curl -L --silent $DOWNLOAD_URL | tar xJ --strip-components=1
 
+if [ ! -f "./ffmpeg" ]; then
+    echo "Failed to properly download/extract ffmpeg. Aborting" | indent
+    exit 1
+fi
+
 echo "exporting PATH" | indent
 PROFILE_PATH="$BUILD_DIR/.profile.d/ffmpeg.sh"
 mkdir -p $(dirname $PROFILE_PATH)
