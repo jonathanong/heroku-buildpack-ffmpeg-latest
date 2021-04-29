@@ -1,29 +1,59 @@
 #!/bin/sh
 
-indent() {
-  sed -u 's/^/       /'
+header() {
+  echo "" || true
+  echo "-----> $*" || true
 }
 
-echo "-----> Install ffmpeg"
-BUILD_DIR=$1
-VENDOR_DIR="vendor"
-DOWNLOAD_URL="https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz"
+output() {
+  while IFS= read -r LINE; do
+    # do not indent headers that are being piped through the output
+    if [[ "$LINE" =~ ^-----\>.* ]]; then
+      echo "$LINE" || true
+    else
+      echo "       $LINE" || true
+    fi
+  done
+}
 
-echo "DOWNLOAD_URL = " $DOWNLOAD_URL | indent
+header "Installing ffmpeg"
+
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+VENDOR_DIR="vendor"
+FFMPEG_ARCHIVE_NAME="ffmpeg.tar.xz"
 
 cd $BUILD_DIR
 mkdir -p $VENDOR_DIR
 cd $VENDOR_DIR
 mkdir -p ffmpeg
 cd ffmpeg
-curl -L --silent $DOWNLOAD_URL | tar xJ --strip-components=1
 
-if [ ! -f "./ffmpeg" ]; then
-    echo "Failed to properly download/extract ffmpeg. Aborting" | indent
-    exit 1
+if [[ -z $FFMPEG_DOWNLOAD_URL ]]; then
+  echo "Variable FFMPEG_DOWNLOAD_URL isn't set, using default value" | output
+  FFMPEG_DOWNLOAD_URL="https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz"
 fi
 
-echo "exporting PATH" | indent
+echo "Downloading $FFMPEG_DOWNLOAD_URL" | output
+
+code=$(curl "$FFMPEG_DOWNLOAD_URL" -L --silent --fail --retry 5 --retry-max-time 15 -o ./$FFMPEG_ARCHIVE_NAME --write-out "%{http_code}")
+
+if [ "$code" != "200" ]; then
+  echo "Unable to download ffmpeg: $code" | output && exit 1
+fi
+
+echo "Unpacking the archive" | output
+
+tar xzf ./$FFMPEG_ARCHIVE_NAME --strip-components=1
+
+if [ "$?" != "0" ]; then
+  echo "Failed to unpack" | output && exit 1
+fi
+
+rm $FFMPEG_ARCHIVE_NAME
+
 PROFILE_PATH="$BUILD_DIR/.profile.d/ffmpeg.sh"
 mkdir -p $(dirname $PROFILE_PATH)
 echo 'export PATH="$PATH:${HOME}/vendor/ffmpeg"' >> $PROFILE_PATH
+
+echo "Installation successful" | output
