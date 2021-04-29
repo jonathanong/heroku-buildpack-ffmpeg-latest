@@ -19,7 +19,6 @@ output() {
 header "Installing ffmpeg"
 
 BUILD_DIR=${1:-}
-CACHE_DIR=${2:-}
 VENDOR_DIR="vendor"
 FFMPEG_ARCHIVE_NAME="ffmpeg.tar.xz"
 
