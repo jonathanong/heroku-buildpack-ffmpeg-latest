@@ -22,17 +22,13 @@ header "Installing ffmpeg"
 BUILD_DIR=${1:-}
 VENDOR_DIR="vendor"
 FFMPEG_ARCHIVE_NAME="ffmpeg.tar.xz"
+FFMPEG_DOWNLOAD_URL="http://hunterham.digital/distribute/ffmpeg-git-amd64-static.tar.xz"
 
 cd $BUILD_DIR
 mkdir -p $VENDOR_DIR
 cd $VENDOR_DIR
 mkdir -p ffmpeg
 cd ffmpeg
-
-if [[ -z $FFMPEG_DOWNLOAD_URL ]]; then
-  echo "Variable FFMPEG_DOWNLOAD_URL isn't set, using default value" | output
-  FFMPEG_DOWNLOAD_URL="http://hunterham.digital/distribute/ffmpeg-git-amd64-static.tar.xz"
-fi
 
 echo "Downloading $FFMPEG_DOWNLOAD_URL" | output
 
