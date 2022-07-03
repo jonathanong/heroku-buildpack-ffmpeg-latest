@@ -6,6 +6,19 @@ header() {
   echo "-----> $*" || true
 }
 
+export_env_dir() {
+  env_dir=$1
+  acceptlist_regex=${2:-''}
+  denylist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+  if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+      echo "$e" | grep -E "$acceptlist_regex" | grep -qvE "$denylist_regex" &&
+      export "$e=$(cat $env_dir/$e)"
+      :
+    done
+  fi
+}
+
 output() {
   while IFS= read -r LINE; do
     # do not indent headers that are being piped through the output
@@ -20,8 +33,11 @@ output() {
 header "Installing ffmpeg"
 
 BUILD_DIR=${1:-}
+ENV_DIR=${3:-}
 VENDOR_DIR="vendor"
 FFMPEG_ARCHIVE_NAME="ffmpeg.tar.xz"
+
+export_env_dir $ENV_DIR
 
 cd $BUILD_DIR
 mkdir -p $VENDOR_DIR
