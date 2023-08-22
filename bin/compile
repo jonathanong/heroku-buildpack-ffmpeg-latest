@@ -17,6 +17,14 @@ output() {
   done
 }
 
+echo "WARNING: THIS BUILDPACK IS NO LONGER MAINTAINED"
+echo "WARNING: USE OF OFFICIAL HEROKU BUILDPACK RECOMMENDED INSTEAD"
+echo "" | output
+echo "This buildpack is no longer maintained." | output
+echo "You may use the following buildpack to install 'ffmpeg' in your app:" | output
+echo "https://github.com/heroku/heroku-buildpack-activestorage-preview" | output
+echo "" | output
+
 header "Installing ffmpeg"
 
 BUILD_DIR=${1:-}

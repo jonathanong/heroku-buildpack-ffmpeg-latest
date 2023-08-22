@@ -1,3 +1,13 @@
+# :rotating_light: THIS BUILDPACK IS NO LONGER MAINTAINED :rotating_light:
+
+This buildpack is [no longer maintained](https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest/issues/71#issuecomment-1687374864) by its original author.
+
+# :rotating_light: USE [`heroku/heroku-buildpack-activestorage-preview`](https://github.com/heroku/heroku-buildpack-activestorage-preview) instead :rotating_light:
+
+Heroku maintains an [official buildpack that installs `ffmpeg`](https://github.com/heroku/heroku-buildpack-activestorage-preview).
+
+While its original purpose is to provide `ffmpeg`, as well as several PDF conversion programs, for users of Ruby on Rails, it can be used with any application and any programming language that requires the `ffmpeg` command-line program.
+
 # heroku-buildpack-ffmpeg-latest
 
 Push: [![Test](https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest/workflows/Test/badge.svg?branch=master&event=push)](https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest/actions?query=workflow%3ATest+event%3Apush+branch%3Amaster)  
